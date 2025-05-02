@@ -70,12 +70,12 @@
 
 <header class={`sticky z-50 top-0 w-full duration-200 px-6 flex items-center justify-between ${
   y > 0 
-    ? 'py-4 bg-[#FAFAFC] border-b-2 border-[#3396ff] drop-shadow-sm' 
+    ? 'py-4 bg-[#FAFAFC] border-b-2 border-[#C19C6F] drop-shadow-sm' 
     : 'py-6 bg-transparent border-b-0'
 }`}>
   <a href="/" class="flex items-center gap-2">
     <img src="/favicon.png" alt="Library Admin" class="h-8 w-auto" />
-    <span class="text-xl font-bold text-[#2F2F2F] hidden sm:block">BookedUp</span>
+    <span class="text-xl font-bold text-[#2F2F2F] hidden sm:block">Study Spaces</span>
   </a>
 
   <!-- Mobile Hamburger Button -->
@@ -92,7 +92,7 @@
   <!-- Desktop Nav -->
   <nav class="sm:flex ml-auto pr-4 items-center gap-6 hidden text-[#2F2F2F] font-medium relative">
     {#each tabs as tab}
-      <a href={tab.link} class="duration-200 hover:text-[#3396ff]">
+      <a href={tab.link} class="duration-200 hover:text-[#C19C6F]">
         {tab.name}
       </a>
     {/each}
@@ -101,7 +101,7 @@
       <div class="relative">
         <button 
           on:click={toggleDropdown}
-          class="flex items-center gap-2 cursor-pointer px-2 py-1 hover:bg-[#F0F4F8] rounded"
+          class="flex items-center gap-2 cursor-pointer px-2 py-1 hover:bg-[#C19C6F] rounded"
         >
           <span class="text-sm">{user['urn:oid:2.5.4.3'] || 'User'}</span>
           <svg class="w-4 h-4 text-[#2F2F2F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

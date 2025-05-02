@@ -43,9 +43,6 @@ passport.use(new SamlStrategy(
 passport.serializeUser((user: Profile, done) => done(null, user));
 passport.deserializeUser((user: Profile, done) => done(null, user));
 
-const allowedNetIDs = ['ar2527'];
-const adminNetIDs = ['ar2527'];
-
 app.get('/login',
   passport.authenticate('saml', { failureRedirect: '/', failureFlash: true })
 );
@@ -53,20 +50,13 @@ app.get('/login',
 app.post('/login/callback',
   passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
   (req, res) => {
-    const user = req.user as Profile;
-    const netid = user["urn:oid:0.9.2342.19200300.100.1.1"] as string;
-
-    if (!allowedNetIDs.includes(netid)) {
-      console.log(`Unauthorized NetID attempted login: ${netid}`);
-      return res.redirect('http://localhost:5173/unauthorized');
-    }
-
-    req.session.isAdmin = adminNetIDs.includes(netid);
+    // everyone who reaches here is considered admin
+    req.session.isAdmin = true;
 
     req.session.save((err) => {
       if (err) {
         console.error('Session save error:', err);
-        return res.redirect('http://localhost:5173/unauthorized');
+        return res.redirect('http://localhost:5173/');
       }
       res.redirect('http://localhost:5173');
     });

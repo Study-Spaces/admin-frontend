@@ -1,18 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-
-  import type { Library, Room } from '../lib/utils/api';
   import {
-    getUser,
     getLibraries,
     getBookableRooms,
     getGeneralRooms,
     getAllReports
-  } from '../lib/utils/api';
+  } from '$lib/utils/api';
 
-  let user: Record<string, any> | null = null;
-  let isAdmin = false;
+  import type { Library, Room } from '$lib/utils/api';
+
   let loading = true;
 
   let libraries: Library[] = [];
@@ -25,30 +22,17 @@
     location: string;
   }[] = [];
 
-  let activity: { text: string; time: string }[] = [];
-
   async function loadData() {
     libraries = await getLibraries();
     rooms = [
       ...await getBookableRooms(),
       ...await getGeneralRooms()
     ];
-
     reports = await getAllReports();
-
     loading = false;
   }
 
-  onMount(async () => {
-    try {
-      const me = await getUser();
-      user = me.user;
-      isAdmin = me.isAdmin;
-    } catch {
-      user = null;
-    }
-    await loadData();
-  });
+  onMount(loadData);
 
   function viewRoom(id: number) {
     goto(`/rooms/${id}`);
@@ -81,9 +65,7 @@
 
   function mapAvailability(room: Room): string {
     if (room.is_bookable !== null) {
-      return room.is_bookable
-        ? 'Occupied'
-        : 'Free';
+      return room.is_bookable ? 'Occupied' : 'Free';
     }
     return room.availability !== null
       ? Math.round(room.availability).toString()
@@ -97,10 +79,8 @@
   <section class="px-6 py-10 max-w-7xl mx-auto text-[#404936]">
     <div class="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
       <div>
-        <h1 class="text-2xl font-semibold">
-          Welcome back, {user?.['urn:oid:2.5.4.3']}!
-        </h1>
-        <p class="text-sm text-[#666]">Admin Overview</p>
+        <h1 class="text-2xl font-semibold">Study Spaces Overview</h1>
+        <p class="text-sm text-[#666]">Dashboard</p>
       </div>
       <div class="flex gap-4">
         <div class="bg-white border border-[#E1E1E1] px-4 py-2 rounded shadow-sm text-center">

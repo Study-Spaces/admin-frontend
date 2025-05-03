@@ -3,12 +3,9 @@
 const API_BASE =
   import.meta.env.VITE_API_BASE ?? 'https://studyspaces-api.aramirez.dev/api';
 
-const AUTH_BASE =
-  import.meta.env.VITE_AUTH_BASE ?? 'https://backend-saml.onrender.com';
-
 async function apiFetch<T>(url: string, opts: RequestInit = {}): Promise<T> {
   const res = await fetch(url, {
-    credentials: 'include', // important for sending cookies
+    credentials: 'omit',
     ...opts,
     headers: {
       'Content-Type': 'application/json',
@@ -21,15 +18,6 @@ async function apiFetch<T>(url: string, opts: RequestInit = {}): Promise<T> {
   }
 
   return res.json();
-}
-
-export interface UserResponse {
-  user: any;
-  isAdmin: boolean;
-}
-
-export function getUser(): Promise<UserResponse> {
-  return apiFetch(`${AUTH_BASE}/me`);
 }
 
 export interface Report {

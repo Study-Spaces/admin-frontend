@@ -19,7 +19,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   let isAuthenticated = false;
 
   try {
-    const res = await fetch('http://localhost:3001/me', {
+    const res = await fetch('https://backend-saml.onrender.com/me', {
       headers: {
         cookie: event.request.headers.get('cookie') || ''
       },

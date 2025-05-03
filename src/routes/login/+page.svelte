@@ -1,6 +1,6 @@
 <script lang="ts">
   function login() {
-    window.location.href = 'http://localhost:3001/login';
+    window.location.href = 'https://backend-saml.onrender.com/login';
   }
 </script>
 

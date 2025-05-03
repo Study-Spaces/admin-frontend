@@ -16,7 +16,7 @@
 
   async function fetchUser() {
     try {
-      const res = await fetch('http://localhost:3001/me', {
+      const res = await fetch('https://backend-saml.onrender.com/me', {
         credentials: 'include'
       });
 
@@ -36,7 +36,7 @@
 
   async function logout() {
     try {
-      await fetch('http://localhost:3001/logout', {
+      await fetch('https://backend-saml.onrender.com/logout', {
         credentials: 'include'
       });
     } catch (err) {

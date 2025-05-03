@@ -5,13 +5,18 @@ const AUTH_BASE = import.meta.env.VITE_AUTH_BASE ?? 'https://backend-saml.onrend
 
 async function apiFetch<T>(url: string, opts: RequestInit = {}): Promise<T> {
   const res = await fetch(url, {
+    ...opts,
     credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    ...opts
+    headers: {
+      'Content-Type': 'application/json',
+      ...(opts.headers || {})
+    }
   });
+
   if (!res.ok) {
     throw new Error(`${res.status} ${res.statusText}`);
   }
+
   return res.json();
 }
 
@@ -52,47 +57,33 @@ export interface Library {
   library_reports:      Report[];
 }
 
-/**
- * Fetch all libraries (with nested rooms & reports)
- */
 export function getLibraries(): Promise<Library[]> {
   return apiFetch<{ libraries: Library[] }>(`${API_BASE}/libraries/`)
     .then(data => data.libraries);
 }
 
-/**
- * Convenience: all bookable rooms across all libraries
- */
 export function getBookableRooms(): Promise<Room[]> {
   return getLibraries().then(libs =>
     libs.flatMap(lib => lib.bookable_rooms)
   );
 }
 
-/**
- * Convenience: all general rooms across all libraries
- */
 export function getGeneralRooms(): Promise<Room[]> {
   return getLibraries().then(libs =>
     libs.flatMap(lib => lib.general_rooms)
   );
 }
 
-/**
- * Convenience: all reports (library + room) flattened out
- */
 export function getAllReports(): Promise<(Report & { type: 'Library' | 'Room'; location: string })[]> {
   return getLibraries().then(libs => {
     const out: (Report & { type: 'Library' | 'Room'; location: string })[] = [];
 
-    // library reports
     libs.forEach(lib => {
       lib.library_reports.forEach(r => {
         out.push({ ...r, type: 'Library', location: lib.name });
       });
     });
 
-    // room reports
     libs.forEach(lib => {
       [...lib.bookable_rooms, ...lib.general_rooms].forEach(room => {
         room.reports.forEach(r => {

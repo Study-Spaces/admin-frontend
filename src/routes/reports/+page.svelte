@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { getLibraries, getBookableRooms, getGeneralRooms } from '$lib/utils/api';
 
-  const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:8000/api';
+  const API_BASE = import.meta.env.VITE_API_BASE ?? 'https://studyspaces-api.aramirez.dev/api';
 
   interface ReportRow {
     id:        number;

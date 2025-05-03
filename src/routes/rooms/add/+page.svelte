@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import { getLibraries } from '$lib/utils/api';
 
-  const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:8000/api';
+  const API_BASE = import.meta.env.VITE_API_BASE ?? 'https://studyspaces-api.aramirez.dev/api';
 
   interface Library {
     id: number;

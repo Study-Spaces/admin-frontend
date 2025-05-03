@@ -1,6 +1,6 @@
 // src/lib/utils/api.ts
 
-const API_BASE  = import.meta.env.VITE_API_BASE  ?? 'http://localhost:8000/api';
+const API_BASE  = import.meta.env.VITE_API_BASE  ?? 'https://studyspaces-api.aramirez.dev/api';
 const AUTH_BASE = import.meta.env.VITE_AUTH_BASE ?? 'https://backend-saml.onrender.com';
 
 async function apiFetch<T>(url: string, opts: RequestInit = {}): Promise<T> {
